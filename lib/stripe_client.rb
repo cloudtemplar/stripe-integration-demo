@@ -14,11 +14,11 @@ class StripeClient
   # I store customers in a single array because there are only 599 results.
   # I am aware that for bigger volume it could be inefficient, but even AR's ::find_each default batch is 1000.
   # If I was expecting more, I would use manual pagination and serialize results to CSV in parts.
-  def fetch_customers_data
+  def fetch_customers_data(download_data_after:)
     payload = []
     retries = 0
     begin
-      customers = Stripe::Customer.list(limit: 50)
+      customers = Stripe::Customer.list(limit: 50, starting_after: download_data_after)
       customers.auto_paging_each do |customer|
         payload << customer
       end

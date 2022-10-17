@@ -1,0 +1,11 @@
+id,email,name,account_balance,currency
+cus_H3LredgKHAL0Le,miley@example.com,miley cyrus,0,usd
+cus_H3L8RSLN6q57CO,lindsay@example.com,lindsay lohan,0,usd
+cus_GvmQVr6kTcCbRV,testingpinvoice2@example.com,testing prorated invoice 2,0,usd
+cus_Gvm1ER91EyJYIB,prorated_subscription@example.com,Test initital prorated subscription,0,usd
+cus_GrIPWtYRJMQNQg,paulpause@example.com,Pause Subscription,0,usd
+cus_Glf9zcaQzeIxSg,discount@example.com,percent discount customer,0,eur
+cus_GdpncmrMDB0hsM,umar@testcustomer.com,Umar Test,0,usd
+cus_GYYUn0byQZWyPz,palmenda@example.com,priscilla almenda,0,usd
+cus_GWI6XtcfkVkXhy,abones@example.com,alex bones,0,usd
+cus_GNnjagaqzo1cJA,eliza@customer.com,eliza johnson,0,usd

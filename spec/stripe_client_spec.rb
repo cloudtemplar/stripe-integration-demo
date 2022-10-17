@@ -6,7 +6,7 @@ require 'support/vcr'
 
 describe StripeClient do
   describe '#fetch_customers_data' do
-    subject(:fetch_customers_data) { described_class.new.fetch_customers_data }
+    subject(:fetch_customers_data) { described_class.new.fetch_customers_data(download_data_after: nil) }
 
     let(:expected_payload) do
       {
