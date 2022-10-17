@@ -7,11 +7,15 @@ require 'customers_data_saver'
 # rubocop:disable Metrics/BlockLength
 describe CustomersDataDownloader do
   describe '#download_customers_csv_data' do
-    subject(:download_customers_csv_data) { described_class.new.download_customers_csv_data(file_name: file_name) }
+    subject(:download_customers_csv_data) do
+      described_class
+        .new(stripe_client: stripe_client_instance, customers_data_saver: data_saver_instance)
+        .download_customers_csv_data(file_name: file_name)
+    end
 
     let(:file_name) { 'file' }
     let(:stripe_client_instance) { instance_double(StripeClient) }
-    let(:customers_data_saver_instance) { instance_double(CustomersDataSaver) }
+    let(:data_saver_instance) { instance_double(CustomersDataSaver) }
     let(:customers_data_payload) do
       [
         {
@@ -25,10 +29,8 @@ describe CustomersDataDownloader do
     end
 
     before do
-      allow(StripeClient).to receive(:new).and_return(stripe_client_instance)
-      allow(CustomersDataSaver).to receive(:new).and_return(customers_data_saver_instance)
       allow(stripe_client_instance).to receive(:fetch_customers_data).and_return(customers_data_payload)
-      allow(customers_data_saver_instance)
+      allow(data_saver_instance)
         .to receive(:save_customers_data)
         .with(payload: customers_data_payload, file_name: file_name)
         .and_return(file_name)
@@ -41,7 +43,7 @@ describe CustomersDataDownloader do
 
     it 'tells CustomersDataSaver to save customers data on given location' do
       download_customers_csv_data
-      expect(customers_data_saver_instance)
+      expect(data_saver_instance)
         .to have_received(:save_customers_data)
         .with(payload: customers_data_payload,
               file_name: file_name)
