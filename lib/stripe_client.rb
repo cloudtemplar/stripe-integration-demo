@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'stripe'
-require 'pry'
 
 class StripeClient
   def initialize
@@ -9,6 +8,6 @@ class StripeClient
   end
 
   def fetch_customers_data
-    Stripe::Customer.list.data
+    Stripe::Customer.list(limit: 1000).data
   end
 end

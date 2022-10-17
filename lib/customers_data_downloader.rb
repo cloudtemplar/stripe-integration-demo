@@ -6,9 +6,9 @@ class CustomersDataDownloader
     @customers_data_saver = customers_data_saver
   end
 
-  def download_customers_csv_data(file_path:)
+  def download_customers_csv_data(file_name:)
     payload = stripe_client.fetch_customers_data
-    customers_data_saver.save_customers_data(payload: payload, file_path: file_path)
+    customers_data_saver.save_customers_data(file_name: file_name, payload: payload)
   end
 
   private
