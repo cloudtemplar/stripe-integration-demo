@@ -10,7 +10,7 @@ class CustomersDataSaver
     CSV.open(file_path, 'w') do |csv|
       csv << CSV_HEADERS
       payload.each do |p|
-        csv << p.values_at(*CSV_HEADERS)
+        csv << p.to_h.values_at(*CSV_HEADERS)
       end
     end
     file_path

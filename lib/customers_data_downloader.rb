@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'stripe_client'
+require_relative 'customers_data_saver'
+
 class CustomersDataDownloader
-  def initialize(stripe_client: StripeClient.new, customers_data_saver: CustomersDataSaver.new)
+  def initialize(stripe_client: ::StripeClient.new, customers_data_saver: ::CustomersDataSaver.new)
     @stripe_client = stripe_client
     @customers_data_saver = customers_data_saver
   end
