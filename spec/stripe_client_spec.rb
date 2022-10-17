@@ -10,9 +10,9 @@ describe StripeClient do
 
     let(:expected_payload) do
       {
-        id: 'cus_MZLaaJi3ck3Cdz',
-        email: nil,
-        name: 'unprorated - prorated change',
+        id: 'cus_FV1PwVVnBq065m',
+        email: 'customer@example.com',
+        name: 'John Smith',
         account_balance: 0,
         currency: 'usd'
       }
@@ -22,9 +22,28 @@ describe StripeClient do
       VCR.insert_cassette 'stripe/customers'
     end
 
-    it 'fetches customers data' do
-      payload = fetch_customers_data[0].to_h.slice(:id, :email, :name, :account_balance, :currency)
-      expect(payload).to eq expected_payload
+    context 'when there are no errors' do
+      it 'fetches customers data' do
+        payload = fetch_customers_data.last.to_h.slice(:id, :email, :name, :account_balance, :currency)
+        expect(payload).to eq expected_payload
+      end
+    end
+
+    context 'when occuring Stripe::RateLimitError' do
+      before do
+        StripeClient::MAX_RETRIES = 1
+        allow(Stripe::Customer).to receive(:list).and_raise(Stripe::RateLimitError)
+      end
+
+      it 'retries for a given amount of times' do
+        expect(Stripe::Customer).to receive(:list).twice
+        fetch_customers_data
+      rescue StripeClient::TimeoutError
+      end
+
+      it 'raises StripeClient::TimeoutError after retrying' do
+        expect { fetch_customers_data }.to raise_error(StripeClient::TimeoutError)
+      end
     end
 
     after do
